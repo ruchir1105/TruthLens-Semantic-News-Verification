@@ -1283,6 +1283,9 @@
       }
     }
   </style>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 </head>
 
 <body>
@@ -1323,24 +1326,7 @@
           <button class="btn btn-outline" style="font-size:1rem;padding:0.9rem 2rem;" onclick="showPage('about')">How It
             Works</button>
         </div>
-        <div class="hero-stats">
-          <div>
-            <div class="hero-stat-num" id="home-stat-total">0</div>
-            <div class="hero-stat-label">Stories Verified</div>
-          </div>
-          <div>
-            <div class="hero-stat-num" id="home-stat-genuine">0</div>
-            <div class="hero-stat-label">Confirmed Genuine</div>
-          </div>
-          <div>
-            <div class="hero-stat-num" id="home-stat-fake">0</div>
-            <div class="hero-stat-label">Flagged as Fake</div>
-          </div>
-          <div>
-            <div class="hero-stat-num">7</div>
-            <div class="hero-stat-label">Trusted Sources</div>
-          </div>
-        </div>
+        <div id="react-hero-stats"></div>
       </div>
     </section>
     <section class="section">
@@ -1508,24 +1494,7 @@
     </div>
     <div class="section-sm">
       <div class="container">
-        <div class="grid-4" style="margin-bottom:2rem;">
-          <div class="stat-card">
-            <div class="stat-card-num blue" id="kpi-total">—</div>
-            <div class="stat-card-label">Total Verified</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-card-num green" id="kpi-genuine">—</div>
-            <div class="stat-card-label">Genuine</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-card-num red" id="kpi-fake">—</div>
-            <div class="stat-card-label">Fake / Suspicious</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-card-num orange" id="kpi-avg">—</div>
-            <div class="stat-card-label">Avg. Score</div>
-          </div>
-        </div>
+        <div id="react-dashboard-kpis"></div>
         <div class="grid-2">
           <div class="card">
             <h3 style="font-family:var(--font-head);font-size:1.4rem;letter-spacing:1px;margin-bottom:1.5rem;">WEEKLY
@@ -1719,13 +1688,13 @@
     </div>
   </footer>
 
-  <div class="toast-container" id="toast-container"></div>
+  <div id="react-toast-root"></div>
 
   <script>
     const API = 'http://localhost:5000/api';
     function showPage(p) { document.querySelectorAll('.page').forEach(x => x.classList.remove('active')); document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); document.getElementById('page-' + p).classList.add('active'); document.querySelectorAll('.nav-link').forEach(l => { if (l.getAttribute('onclick') && l.getAttribute('onclick').includes(p)) l.classList.add('active') }); window.scrollTo({ top: 0, behavior: 'smooth' }); if (p === 'history') loadHistory(); if (p === 'dashboard') loadAnalytics(); if (p === 'home') loadHomeStats(); }
 
-    function showToast(msg, type = '') { const tc = document.getElementById('toast-container'); const t = document.createElement('div'); t.className = 'toast ' + type; t.textContent = msg; tc.appendChild(t); setTimeout(() => t.remove(), 3500); }
+    function showToast(msg, type = '') { window.dispatchEvent(new CustomEvent('show-toast', { detail: { msg, type } })); }
 
     function buildResultHTML(data) {
       const srcHTML = data.sources && data.sources.length ? `<h4 style="font-size:0.8rem;text-transform:uppercase;letter-spacing:1.5px;margin:1.5rem 0 0.75rem;color:var(--muted);">Credibility Contribution Map</h4><ul class="source-list" style="gap:1rem;">${data.sources.map(s => {
@@ -1801,10 +1770,7 @@
     async function loadAnalytics() {
       try {
         const res = await fetch(API + '/analytics'); const d = await res.json();
-        document.getElementById('kpi-total').textContent = d.total || 0;
-        document.getElementById('kpi-genuine').textContent = d.genuine || 0;
-        document.getElementById('kpi-fake').textContent = d.fake || 0;
-        document.getElementById('kpi-avg').textContent = (d.avgScore || 0) + '%';
+        // KPIs are now handled via React Component
         const wc = document.getElementById('weekly-chart'); const max = Math.max(...d.last7.map(x => Math.max(x.genuine, x.fake, 1)));
         wc.innerHTML = d.last7.map(day => `<div class="mini-bar-wrap"><div class="mini-bar genuine" style="height:${(day.genuine / max) * 70}px;" title="${day.genuine} genuine"></div><div class="mini-bar fake" style="height:${(day.fake / max) * 70}px;" title="${day.fake} fake"></div><div class="mini-label">${day.date.slice(5)}</div></div>`).join('');
         const cc = document.getElementById('category-chart');
@@ -1815,7 +1781,7 @@
         else vb.innerHTML = '<p style="color:var(--muted);font-size:0.9rem;">No data yet.</p>';
       } catch { showToast('Could not load analytics. Is the server running?', 'error'); }
     }
-    async function loadHomeStats() { try { const res = await fetch(API + '/analytics'); const d = await res.json(); animateCounter('home-stat-total', d.total); animateCounter('home-stat-genuine', d.genuine); animateCounter('home-stat-fake', d.fake); } catch { } }
+    async function loadHomeStats() { /* Handled by React */ }
     function animateCounter(id, target) { const el = document.getElementById(id); let cur = 0; const step = Math.max(1, Math.ceil(target / 40)); const t = setInterval(() => { cur = Math.min(cur + step, target); el.textContent = cur; if (cur >= target) clearInterval(t); }, 30); }
     function toggleFaq(el) { el.parentElement.classList.toggle('open'); }
     document.addEventListener('keydown', e => { if (e.key === 'Enter' && document.activeElement.id === 'v-headline') verifyNews(); });
@@ -1951,6 +1917,118 @@
     } else {
       updateAuthUI();
     }
+  </script>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    // Component 1: HeroStats
+    function HeroStats() {
+      const [stats, setStats] = useState({ total: 0, genuine: 0, fake: 0 });
+
+      useEffect(() => {
+        fetch('http://localhost:5000/api/analytics')
+          .then(res => res.json())
+          .then(d => setStats({ total: d.total || 0, genuine: d.genuine || 0, fake: d.fake || 0 }))
+          .catch(() => {});
+      }, []);
+
+      return (
+        <div className="hero-stats">
+          <div>
+            <div className="hero-stat-num">{stats.total}</div>
+            <div className="hero-stat-label">Stories Verified</div>
+          </div>
+          <div>
+            <div className="hero-stat-num">{stats.genuine}</div>
+            <div className="hero-stat-label">Confirmed Genuine</div>
+          </div>
+          <div>
+            <div className="hero-stat-num">{stats.fake}</div>
+            <div className="hero-stat-label">Flagged as Fake</div>
+          </div>
+          <div>
+            <div className="hero-stat-num">7</div>
+            <div className="hero-stat-label">Trusted Sources</div>
+          </div>
+        </div>
+      );
+    }
+
+    // Component 2: DashboardKPIs
+    function DashboardKPIs() {
+      const [kpi, setKpi] = useState({ total: '-', genuine: '-', fake: '-', avgScore: '-' });
+
+      useEffect(() => {
+        const load = () => {
+          fetch('http://localhost:5000/api/analytics')
+            .then(res => res.json())
+            .then(d => setKpi({ total: d.total || 0, genuine: d.genuine || 0, fake: d.fake || 0, avgScore: d.avgScore || 0 }))
+            .catch(() => {});
+        };
+        load();
+        const intv = setInterval(load, 5000);
+        return () => clearInterval(intv);
+      }, []);
+
+      return (
+        <div className="grid-4" style={{ marginBottom: '2rem' }}>
+          <div className="stat-card">
+            <div className="stat-card-num blue">{kpi.total}</div>
+            <div className="stat-card-label">Total Verified</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-card-num green">{kpi.genuine}</div>
+            <div className="stat-card-label">Genuine</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-card-num red">{kpi.fake}</div>
+            <div className="stat-card-label">Fake / Suspicious</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-card-num orange">{kpi.avgScore}%</div>
+            <div className="stat-card-label">Avg. Score</div>
+          </div>
+        </div>
+      );
+    }
+
+    // Component 3: ToastManager
+    function ToastManager() {
+      const [toasts, setToasts] = useState([]);
+
+      useEffect(() => {
+        const handler = (e) => {
+          const id = Date.now() + Math.random();
+          setToasts(prev => [...prev, { id, msg: e.detail.msg, type: e.detail.type }]);
+          setTimeout(() => {
+            setToasts(prev => prev.filter(t => t.id !== id));
+          }, 3500);
+        };
+        window.addEventListener('show-toast', handler);
+        return () => window.removeEventListener('show-toast', handler);
+      }, []);
+
+      return (
+        <div className="toast-container">
+          {toasts.map(t => (
+            <div key={t.id} className={"toast " + t.type}>
+              {t.msg}
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    // Mount logic
+    const hrRoot = document.getElementById('react-hero-stats');
+    if (hrRoot) ReactDOM.createRoot(hrRoot).render(<HeroStats />);
+
+    const dkRoot = document.getElementById('react-dashboard-kpis');
+    if (dkRoot) ReactDOM.createRoot(dkRoot).render(<DashboardKPIs />);
+
+    const tRoot = document.getElementById('react-toast-root');
+    if (tRoot) ReactDOM.createRoot(tRoot).render(<ToastManager />);
   </script>
 </body>
 
