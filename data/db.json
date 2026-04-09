@@ -1,6 +1,43 @@
 {
   "history": [
     {
+      "id": "1775751780391",
+      "headline": "COVID-19 Pandemic caused Lockdown in India",
+      "category": "General",
+      "score": 100,
+      "verdict": "Verified Fact",
+      "color": "green",
+      "credibleMatches": 3,
+      "suspiciousMatches": 0,
+      "sources": [
+        {
+          "name": "Wikipedia",
+          "url": "en.wikipedia.org",
+          "reliability": 90,
+          "simScore": 0.510450541973114,
+          "contribution": 0.8999999237500066,
+          "contextSnippet": "COVID-19 pandemic in the United Kingdom. The COVID-19 pandemic in the United Kingdom is a part of the worldwide pandemic of coronavirus disease 2019 (COVID-19) caused by severe acute respiratory"
+        },
+        {
+          "name": "Wikipedia",
+          "url": "en.wikipedia.org",
+          "reliability": 90,
+          "simScore": 0.45819076895713806,
+          "contribution": 0.8999999237500066,
+          "contextSnippet": "List of deaths due to the COVID-19 pandemic.  as a result of infection by the virus SARS-CoV-2 during the COVID-19 pandemic, from its initial identification in January 2020 through the World Health"
+        },
+        {
+          "name": "Wikipedia",
+          "url": "en.wikipedia.org",
+          "reliability": 90,
+          "simScore": 0.6040531992912292,
+          "contribution": 0.8999999236979233,
+          "contextSnippet": "COVID-19 lockdowns. During the early stages of the COVID-19 pandemic, a number of non-pharmaceutical interventions, particularly lockdowns (encompassing stay-at-home orders, curfews"
+        }
+      ],
+      "timestamp": "2026-04-09T16:23:00.391Z"
+    },
+    {
       "id": "1775743145961",
       "headline": "NASA has an ongoing mission to study the moon called \"Artemis\"",
       "category": "General",
@@ -424,59 +461,6 @@
       "suspiciousMatches": 0,
       "sources": [],
       "timestamp": "2026-04-08T11:37:38.686Z"
-    },
-    {
-      "id": "1775599511783",
-      "headline": "Vellore Institute of Technology is an Engineering Institute in Gujarat",
-      "category": "General",
-      "score": 0,
-      "verdict": "Fake",
-      "color": "red",
-      "credibleMatches": 8,
-      "suspiciousMatches": 0,
-      "sources": [
-        {
-          "name": "Wikipedia",
-          "url": "en.wikipedia.org",
-          "reliability": 90,
-          "simScore": 0.7617554664611816,
-          "contribution": 0.8999999278645892,
-          "contextSnippet": "Vellore Institute of Technology. Vellore Institute of Technology or VIT is a private deemed university in Vellore, Tamil Nadu, India. The institution offers undergraduate and postgraduate"
-        },
-        {
-          "name": "Wikipedia",
-          "url": "en.wikipedia.org",
-          "reliability": 90,
-          "simScore": 0.5495853424072266,
-          "contribution": 0.8999999278125058,
-          "contextSnippet": "List of colleges affiliated to the Anna University. TECHNOLOGY List of AICTE approved colleges in Vellore include Bharathidasan Engineering College C. Abdul Hakeem College of Engineering &amp; Technology Kingston"
-        },
-        {
-          "name": "Wikipedia",
-          "url": "en.wikipedia.org",
-          "reliability": 90,
-          "simScore": 0.5097067356109619,
-          "contribution": 0.8999999278125058,
-          "contextSnippet": "List of engineering colleges in Tamil Nadu. College of Engineering and Technology Tuticorin St.Mother Theresa Engineering College Dr.sivanthi adithanar Engineering college tiruchendur Vellore Thanthai"
-        },
-        {
-          "name": "WorldNews",
-          "url": "thehindu.com",
-          "reliability": 90,
-          "simScore": 0.44185778498649597,
-          "contribution": 0.8921139855262293,
-          "contextSnippet": "Has IISc declined in research?. The decline of IISc in the 2026 QS broad discipline rankings is primarily driven by the ranking methodology, rather than a drop in quality of research. While IISc continues to produce world-class research, it faces challenges in the heavily weighted reputation metrics of the QS system. In the Engineering & Technology category, academic and employer reputation accounts for 70% of the total weightage, where the IITs consistently outperform IISc due to the sheer volume of the IIT alumni in global leadership roles, robust campus recruitment ecosystem and the high students global mobility.\n\nWhile IISc frequently outpaces the IITs in Citations per Paper, its lower H-index reveals that it does not match volume of high-impact research output as the much larger, multi-departmental IITs. Besides, the IITs have been historically more aggressive in establishing International Research Networks (IRN).\n\nIt is interesting to note that Vellore Institute of Technology (VIT) achieved an overall score of 73.7 in the same discipline, placing it at 119th rank, ahead of IISc. It is a leap of 23 places from its rank of 142 in the previous year. Its citations per paper and IRN score surpass those of even IIT Delhi, the highest ranked Indian institution in this category.\n\nDespite the slide in broad categories, IISc has dominant presence in Pure Sciences, where it remains the only Indian institution to feature in the global top 100 in core scientific disciplines such as Physics, Chemistry, and Materials Science, whereas the IITs continue to lead in the applied landscape, in professional fields like Engineering, Technology, and Management. Besides, due to its research prowess, at the overall institutional level (WUR), IISc continues to be in less than 250 band, far better than VIT but less than IITs."
-        },
-        {
-          "name": "Hemali Chhapia,manash Pratim Gohain",
-          "url": "timesofindia.indiatimes.com",
-          "reliability": 85,
-          "simScore": 0.42081281542778015,
-          "contribution": 0.7972795264042627,
-          "contextSnippet": "Global boost: IITs make mark in QS top 50 rankings by subject. MUMBAI/NEW DELHI: The Indian Institutes of Technology continue to anchor the country's global reputation in engineering, placing multiple disciplines firmly within the world's top 50 QS rankings by subjects. Close behind, management education is carving out its own space, with institutions such as IIM Ahmedabad pushing into elite global ranks and signalling India's growing influence in business and strategy education. However, arts and humanities present a more complex picture, an area where progress has been slower, and in some cases, reversed.The latest QS World University Rankings by Subject 2026 released Wednesday placed IIT Bombay's Computer Science (44), Electrical Engineering (44) and Civil Engineering (42) among the world's leading technical institutions. IIT Delhi records an equally strong showing, with Electrical Engineering at 36, Mechanical Engineering at 44 and Chemical Engineering entering the top 50 for the first time at 48. IIT Madras, meanwhile, posts four top-50 finishes, led by Petroleum Engineering (29), along with strong returns to the top tier in Civil and Mechanical disciplines.Across the country, nearly 100 institutions now feature in the rankings, marking a 120% increase in five years. More significant is the quality shift: 44% of India's entries improved their positions this year, the highest proportion among major higher education systems globally.Jessica Turner, CEO, QS Quacquarelli Symonds, said: \"India's rise this year is not just about scale: it's about momentum in quality and global competitiveness. The breadth of improvement across engineering, technology and business signals a system that is accelerating with intent.\"The gains are most visible in engineering. Chemical Engineering alone now has five Indian institutions in the global top 100, up from two. Electrical and Mechanical engineering each have six. Civil engineering has five. In Mineral and Mining Engineering, four institutions sit in the top 50.Computer science, once a thinner area of representation, has expanded rapidly. Ten Indian institutions now feature in the top 200, with IIT Bombay and IIT Delhi leading at 44 and 45 respectively-their highest-ever ranks.Moreover, IIT Kharagpur has entered Petroleum Engineering at 28 on debut and climbed sharply in Mineral and Mining Engineering. Birla Institute of Technology and Science, Pilani has moved into the global top 50 in Pharmacy and Pharmacology. Vellore Institute of Technology has broken into the top 100 in Electrical Engineering for the first time.Beyond engineering. Indian Institute of Management Ahmedabad has climbed to 21 in Business and Management Studies and made a debut at the same rank in Marketing, the first time an Indian institution has been ranked in that discipline. In medicine, All India Institute of Medical Sciences has reached its highest-ever global position at 105."
-        }
-      ],
-      "timestamp": "2026-04-07T22:05:11.783Z"
     },
     {
       "id": "1775599491304",
