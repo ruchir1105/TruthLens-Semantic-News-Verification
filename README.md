@@ -37,3 +37,53 @@ TruthLens applies dynamic weighting to penalize unknown domains and outdated art
 - **Rate Limits**: NewsAPI restricts free-tier extraction to 100 requests per day. The JSON cache mitigates this, but high-velocity bursts still risk throttling.
 - **Micro-hallucinations**: Extremely well-written, factual-sounding fake news that hasn't been debunked aggressively (yielding zero articles matched) falls back to "15% Unverified", rather than explicitly "Fake". 
 - **Cold Boot Lag**: The ML microservice requires ~5 seconds to initialize its neural weights on cold start.
+
+## Setup and Installation
+
+### 1. Download the Code
+```powershell
+git clone https://github.com/ruchir1105/TruthLens-Semantic-News-Verification.git
+cd TruthLens-Semantic-News-Verification
+```
+
+### 2. Set Up the Secret API Keys
+In the main folder, create a file named `.env` and add the required API keys inside. For example:
+```env
+NEWS_API_KEY=your_news_api_key_here
+WORLDNEWS_API_KEY=your_worldnews_api_key_here
+GOOGLE_API_KEY=your_gemini_api_key_here
+```
+
+### 3. Set Up the Node.js Backend
+Regenerate the `node_modules` folder and start the Node server:
+```powershell
+# Installs all the required Node packages
+npm install
+
+# Starts the main backend server
+npm start
+```
+*(The Node backend will now be running on `http://localhost:5000`)*
+
+### 4. Set Up the Python Microservice
+In a separate terminal window, install the Python AI/ML dependencies and start the Python server:
+```powershell
+# Navigate to the Python microservice folder
+cd python-service
+
+# Create a fresh virtual environment
+python -m venv venv
+
+# Activate the virtual environment
+# (On Windows):
+.\venv\Scripts\activate
+# (On Mac/Linux):
+source venv/bin/activate
+
+# Install the Python packages
+pip install -r requirements.txt
+
+# Run the Python microservice
+python main.py
+```
+*(The Python backend will now be running on `http://127.0.0.1:8000`)*
