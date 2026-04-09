@@ -1,0 +1,1957 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TruthLens – News Verification Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #f5f0e8;
+      --paper: #111;
+      --cream: #1a1a1a;
+      --accent: #c8392b;
+      --accent2: #2563eb;
+      --gold: #c9a84c;
+      --green: #1a7a4a;
+      --orange: #d97706;
+      --red: #c8392b;
+      --muted: #888;
+      --border: #2a2a2a;
+      --card: #1e1e1e;
+      --font-head: 'Bebas Neue', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+      --radius: 4px;
+      --shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.14)
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 100vh
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none
+    }
+
+    button {
+      cursor: pointer;
+      font-family: var(--font-body);
+      border: none
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #0a0a0a;
+      border-bottom: 3px solid var(--accent)
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      height: 60px
+    }
+
+    .logo {
+      font-family: var(--font-head);
+      font-size: 2rem;
+      letter-spacing: 2px;
+      color: #fff
+    }
+
+    .logo span {
+      color: var(--accent)
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0
+    }
+
+    .nav-link {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0 1.2rem;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      transition: color 0.2s, background 0.2s;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -3px;
+      cursor: pointer
+    }
+
+    .nav-link:hover {
+      color: #fff
+    }
+
+    .nav-link.active {
+      color: var(--accent);
+      border-color: var(--accent)
+    }
+
+    .nav-cta {
+      background: var(--accent);
+      color: #fff;
+      padding: 0.5rem 1.2rem;
+      border-radius: var(--radius);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: background 0.2s, transform 0.1s;
+      cursor: pointer
+    }
+
+    .nav-cta:hover {
+      background: #a52d22;
+      transform: translateY(-1px)
+    }
+
+    .page {
+      display: none
+    }
+
+    .page.active {
+      display: block;
+      animation: fadeIn 0.35s ease
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem
+    }
+
+    .section {
+      padding: 5rem 0
+    }
+
+    .section-sm {
+      padding: 3rem 0
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow)
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 0.25rem 0.75rem;
+      border-radius: 2px;
+      border: 1px solid currentColor
+    }
+
+    .tag-green {
+      color: var(--green)
+    }
+
+    .tag-red {
+      color: var(--red)
+    }
+
+    .tag-orange {
+      color: var(--orange)
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2rem 0
+    }
+
+    .text-muted {
+      color: var(--muted)
+    }
+
+    .text-mono {
+      font-family: var(--font-mono)
+    }
+
+    .flex {
+      display: flex
+    }
+
+    .flex-center {
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .flex-between {
+      display: flex;
+      align-items: center;
+      justify-content: space-between
+    }
+
+    .gap-1 {
+      gap: 0.5rem
+    }
+
+    .gap-2 {
+      gap: 1rem
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      transition: all 0.2s;
+      border: 2px solid transparent
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent)
+    }
+
+    .btn-primary:hover {
+      background: #a52d22;
+      border-color: #a52d22;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(200, 57, 43, 0.35)
+    }
+
+    .btn-green {
+      background: var(--green);
+      color: #fff;
+      border-color: var(--green)
+    }
+
+    .btn-green:hover {
+      background: #145c38;
+      border-color: #145c38;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(26, 122, 74, 0.35)
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--ink);
+      border-color: var(--ink)
+    }
+
+    .btn-outline:hover {
+      background: var(--ink);
+      color: var(--paper);
+      transform: translateY(-2px)
+    }
+
+    .btn-sm {
+      padding: 0.4rem 1rem;
+      font-size: 0.8rem
+    }
+
+    .btn-danger {
+      background: transparent;
+      color: var(--red);
+      border-color: var(--red)
+    }
+
+    .btn-danger:hover {
+      background: var(--red);
+      color: #fff
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted)
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      background: var(--paper);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--ink);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--accent2);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12)
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 140px
+    }
+
+    .hero {
+      background: #050505;
+      position: relative;
+      overflow: hidden;
+      padding: 6rem 0 5rem
+    }
+
+    .hero::before {
+      content: 'TRUTH';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: -0.05em;
+      font-family: var(--font-head);
+      font-size: 22rem;
+      color: rgba(255, 255, 255, 0.03);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none
+    }
+
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.2rem
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 30px;
+      height: 2px;
+      background: var(--accent)
+    }
+
+    .hero h1 {
+      font-family: var(--font-head);
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      line-height: 0.95;
+      color: #fff;
+      letter-spacing: 2px;
+      margin-bottom: 1.5rem
+    }
+
+    .hero h1 em {
+      color: var(--accent);
+      font-style: normal
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: #9a9088;
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+      line-height: 1.7
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap
+    }
+
+    .hero-stats {
+      margin-top: 5rem;
+      display: flex;
+      gap: 3rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 2.5rem
+    }
+
+    .hero-stat-num {
+      font-family: var(--font-head);
+      font-size: 2.8rem;
+      line-height: 1
+    }
+
+    .hero-stat-label {
+      font-size: 0.75rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.25rem
+    }
+
+    .step-number {
+      font-family: var(--font-head);
+      font-size: 4rem;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      opacity: 0.2
+    }
+
+    .step-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem
+    }
+
+    .step-desc {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.7
+    }
+
+    .quick-verify-wrap {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.5rem
+    }
+
+    .quick-verify-wrap h3 {
+      font-family: var(--font-head);
+      font-size: 2rem;
+      letter-spacing: 1px;
+      margin-bottom: 1.5rem
+    }
+
+    .source-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 0.6rem 1.2rem;
+      font-weight: 600;
+      font-size: 0.85rem;
+      box-shadow: var(--shadow)
+    }
+
+    .source-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      flex-shrink: 0
+    }
+
+    .page-header {
+      padding: 3.5rem 0 3rem;
+      border-bottom-width: 3px;
+      border-bottom-style: solid
+    }
+
+    .page-header h2 {
+      font-family: var(--font-head);
+      font-size: 3.5rem;
+      letter-spacing: 2px
+    }
+
+    .page-header p {
+      margin-top: 0.5rem
+    }
+
+    .verify-header {
+      background: #050505;
+      border-bottom-color: var(--accent)
+    }
+
+    .verify-header h2,
+    .verify-header p,
+    .history-header h2,
+    .history-header p,
+    .dash-header h2,
+    .dash-header p,
+    .faq-header h2,
+    .faq-header p {
+      color: #fff
+    }
+
+    .verify-header p,
+    .history-header p,
+    .dash-header p,
+    .faq-header p {
+      color: #9a9088
+    }
+
+    .history-header {
+      background: #050505;
+      border-bottom-color: var(--gold)
+    }
+
+    .dash-header {
+      background: #050505;
+      border-bottom-color: var(--accent2)
+    }
+
+    .faq-header {
+      background: #050505;
+      border-bottom-color: var(--accent)
+    }
+
+    .verify-body {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem
+    }
+
+    .verify-card {
+      background: var(--card);
+      border: 1px solid var(--green);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      box-shadow: 0 8px 40px rgba(26, 122, 74, 0.14)
+    }
+
+    .char-count {
+      text-align: right;
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      margin-top: 0.35rem
+    }
+
+    .result-panel {
+      border-radius: var(--radius);
+      padding: 2rem;
+      border: 2px solid var(--border);
+      margin-top: 2rem;
+      animation: slideUp 0.4s ease
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    .result-panel.green {
+      border-color: var(--green);
+      background: rgba(26, 122, 74, 0.05)
+    }
+
+    .result-panel.orange {
+      border-color: var(--orange);
+      background: rgba(217, 119, 6, 0.05)
+    }
+
+    .result-panel.red {
+      border-color: var(--red);
+      background: rgba(200, 57, 43, 0.05)
+    }
+
+    .result-verdict {
+      font-family: var(--font-head);
+      font-size: 2.5rem;
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem
+    }
+
+    .result-panel.green .result-verdict {
+      color: var(--green)
+    }
+
+    .result-panel.orange .result-verdict {
+      color: var(--orange)
+    }
+
+    .result-panel.red .result-verdict {
+      color: var(--red)
+    }
+
+    .score-bar-wrap {
+      margin: 1.5rem 0
+    }
+
+    .score-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      margin-bottom: 0.4rem;
+      font-weight: 600
+    }
+
+    .score-bar-bg {
+      background: var(--cream);
+      border-radius: 2px;
+      height: 10px;
+      overflow: hidden
+    }
+
+    .score-bar-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1)
+    }
+
+    .green .score-bar-fill {
+      background: var(--green)
+    }
+
+    .orange .score-bar-fill {
+      background: var(--orange)
+    }
+
+    .red .score-bar-fill {
+      background: var(--red)
+    }
+
+    .source-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 1rem
+    }
+
+    .source-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--paper);
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border)
+    }
+
+    .source-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--accent2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      flex-shrink: 0
+    }
+
+    .source-name {
+      font-weight: 600;
+      font-size: 0.9rem
+    }
+
+    .source-rel {
+      margin-left: auto;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--green)
+    }
+
+    .spinner {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .filter-bar {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 2rem
+    }
+
+    .filter-btn {
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      border: 1.5px solid var(--border);
+      background: var(--card);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--muted);
+      transition: all 0.2s;
+      cursor: pointer
+    }
+
+    .filter-btn.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(200, 57, 43, 0.06)
+    }
+
+    .filter-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent)
+    }
+
+    .history-table-wrap {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow)
+    }
+
+    .history-table {
+      width: 100%;
+      border-collapse: collapse
+    }
+
+    .history-table thead {
+      background: var(--ink)
+    }
+
+    .history-table th {
+      color: var(--muted);
+      font-size: 0.7rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 600;
+      padding: 1rem 1.25rem;
+      text-align: left
+    }
+
+    .history-table td {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--cream);
+      vertical-align: middle;
+      font-size: 0.9rem
+    }
+
+    .history-table tr:last-child td {
+      border-bottom: none
+    }
+
+    .history-table tr:hover td {
+      background: var(--paper)
+    }
+
+    .score-badge {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 600
+    }
+
+    .score-badge.green {
+      color: var(--green)
+    }
+
+    .score-badge.orange {
+      color: var(--orange)
+    }
+
+    .score-badge.red {
+      color: var(--red)
+    }
+
+    .delete-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0.2rem 0.4rem;
+      border-radius: var(--radius);
+      transition: color 0.2s, background 0.2s
+    }
+
+    .delete-btn:hover {
+      color: var(--red);
+      background: rgba(200, 57, 43, 0.08)
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--muted)
+    }
+
+    .empty-state-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1.5rem;
+      border-top: 1px solid var(--border)
+    }
+
+    .page-btn {
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid var(--border);
+      background: var(--card);
+      border-radius: var(--radius);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .page-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff
+    }
+
+    .page-btn:hover:not(.active) {
+      border-color: var(--accent);
+      color: var(--accent)
+    }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      box-shadow: var(--shadow)
+    }
+
+    .stat-card-num {
+      font-family: var(--font-head);
+      font-size: 3rem;
+      line-height: 1;
+      margin-bottom: 0.25rem
+    }
+
+    .stat-card-label {
+      font-size: 0.78rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 600
+    }
+
+    .stat-card-num.green {
+      color: var(--green)
+    }
+
+    .stat-card-num.red {
+      color: var(--red)
+    }
+
+    .stat-card-num.orange {
+      color: var(--orange)
+    }
+
+    .stat-card-num.blue {
+      color: var(--accent2)
+    }
+
+    .bar-chart {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 100px 1fr 50px;
+      align-items: center;
+      gap: 1rem
+    }
+
+    .bar-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px
+    }
+
+    .bar-track {
+      background: var(--cream);
+      border-radius: 2px;
+      height: 8px;
+      overflow: hidden
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 2px;
+      background: var(--accent2);
+      transition: width 1s ease
+    }
+
+    .bar-pct {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: right
+    }
+
+    .mini-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      height: 80px
+    }
+
+    .mini-bar-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px
+    }
+
+    .mini-bar {
+      width: 100%;
+      border-radius: 2px 2px 0 0;
+      transition: height 0.6s ease;
+      min-height: 2px
+    }
+
+    .mini-bar.genuine {
+      background: var(--green)
+    }
+
+    .mini-bar.fake {
+      background: var(--red)
+    }
+
+    .mini-label {
+      font-size: 0.6rem;
+      color: var(--muted);
+      font-family: var(--font-mono)
+    }
+
+    .method-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      position: relative;
+      overflow: hidden
+    }
+
+    .method-card::before {
+      content: attr(data-num);
+      position: absolute;
+      top: -0.5rem;
+      right: 1rem;
+      font-family: var(--font-head);
+      font-size: 6rem;
+      color: rgba(0, 0, 0, 0.04);
+      line-height: 1;
+      pointer-events: none
+    }
+
+    .method-icon {
+      font-size: 1.8rem;
+      margin-bottom: 1rem
+    }
+
+    .method-title {
+      font-family: var(--font-head);
+      font-size: 1.4rem;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem
+    }
+
+    .method-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7
+    }
+
+    .tech-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--paper);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 0.45rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 600
+    }
+
+    .trusted-source {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--cream)
+    }
+
+    .trusted-source:last-child {
+      border-bottom: none
+    }
+
+    .ts-name {
+      font-weight: 600
+    }
+
+    .ts-score {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--green);
+      font-weight: 600
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border)
+    }
+
+    .faq-question {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 0;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: color 0.2s
+    }
+
+    .faq-question:hover {
+      color: var(--accent)
+    }
+
+    .faq-arrow {
+      font-size: 1.2rem;
+      transition: transform 0.3s;
+      color: var(--muted)
+    }
+
+    .faq-item.open .faq-arrow {
+      transform: rotate(45deg);
+      color: var(--accent)
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.8
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+      padding-bottom: 1.5rem
+    }
+
+    .tip-card {
+      background: var(--cream);
+      border-left: 4px solid var(--accent2);
+      padding: 1.25rem 1.5rem;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin-bottom: 1rem
+    }
+
+    .tip-card strong {
+      display: block;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent2);
+      margin-bottom: 0.3rem
+    }
+
+    footer {
+      background: var(--ink);
+      color: var(--muted);
+      border-top: 3px solid var(--accent);
+      padding: 3rem 0 2rem
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem
+    }
+
+    .footer-logo {
+      font-family: var(--font-head);
+      font-size: 2rem;
+      color: #fff;
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-logo span {
+      color: var(--accent)
+    }
+
+    .footer-tagline {
+      font-size: 0.85rem;
+      color: var(--muted)
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      font-size: 0.8rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem
+    }
+
+    .footer-link {
+      color: var(--muted);
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: color 0.2s
+    }
+
+    .footer-link:hover {
+      color: var(--paper)
+    }
+
+    .toast-container {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem
+    }
+
+    .toast {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 0.85rem 1.25rem;
+      border-radius: var(--radius);
+      font-size: 0.85rem;
+      font-weight: 500;
+      box-shadow: var(--shadow-lg);
+      border-left: 4px solid var(--accent);
+      animation: toastIn 0.35s ease;
+      max-width: 320px
+    }
+
+    .toast.success {
+      border-left-color: var(--green)
+    }
+
+    .toast.error {
+      border-left-color: var(--red)
+    }
+
+    @keyframes toastIn {
+      from {
+        opacity: 0;
+        transform: translateX(20px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+
+
+    @media(max-width:768px) {
+
+      .grid-2,
+      .grid-3,
+      .grid-4 {
+        grid-template-columns: 1fr
+      }
+
+      .hero h1 {
+        font-size: 3.5rem
+      }
+
+      .hero-stats {
+        flex-wrap: wrap;
+        gap: 1.5rem
+      }
+
+      .nav-links {
+        display: none
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <div class="nav-inner">
+      <div class="logo">TRUTH<span>LENS</span></div>
+      <div class="nav-links">
+        <a class="nav-link active" onclick="showPage('home')">Home</a>
+        <a class="nav-link" onclick="showPage('verify')">Verify</a>
+        <a class="nav-link" onclick="showPage('history')">History</a>
+        <a class="nav-link" onclick="showPage('dashboard')">Analytics</a>
+        <a class="nav-link" onclick="showPage('about')">About</a>
+      </div>
+      <div style="display:flex;align-items:center;gap:1.5rem;">
+        <button class="nav-cta" onclick="showPage('verify')">Verify News →</button>
+        <a id="nav-auth-link" class="nav-link" onclick="showPage('auth')"
+          style="height:auto;padding:0;border:none;">Login/Signup</a>
+        <div id="nav-user-menu" style="display:none;align-items:center;gap:1rem;">
+          <span id="nav-user-name" style="font-size:0.8rem;font-weight:600;color:var(--muted);"></span>
+          <button class="btn btn-outline btn-sm" onclick="handleLogout()"
+            style="padding:0.3rem 0.8rem;font-size:0.75rem;">Logout</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE 1: HOME -->
+  <div id="page-home" class="page active">
+
+    <section class="hero">
+      <div class="container">
+        <h1>DON'T<br>SPREAD<br><em>LIES.</em></h1>
+        <p class="hero-sub">TruthLens cross-references news against the world's most trusted media outlets and returns a
+          credibility score in seconds.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" style="font-size:1rem;padding:0.9rem 2rem;"
+            onclick="showPage('verify')">Verify a Story →</button>
+          <button class="btn btn-outline" style="font-size:1rem;padding:0.9rem 2rem;" onclick="showPage('about')">How It
+            Works</button>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <div class="hero-stat-num" id="home-stat-total">0</div>
+            <div class="hero-stat-label">Stories Verified</div>
+          </div>
+          <div>
+            <div class="hero-stat-num" id="home-stat-genuine">0</div>
+            <div class="hero-stat-label">Confirmed Genuine</div>
+          </div>
+          <div>
+            <div class="hero-stat-num" id="home-stat-fake">0</div>
+            <div class="hero-stat-label">Flagged as Fake</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">7</div>
+            <div class="hero-stat-label">Trusted Sources</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <p class="tag tag-green" style="margin-bottom:1rem;">Process</p>
+        <h2 style="font-family:var(--font-head);font-size:2.5rem;letter-spacing:1px;margin-bottom:3rem;">HOW IT WORKS
+        </h2>
+        <div class="grid-3">
+          <div>
+            <div class="step-number">01</div>
+            <div class="step-title">Submit Your Story</div>
+            <div class="step-desc">Paste the headline and content of the news article you want to verify into our
+              platform.</div>
+          </div>
+          <div>
+            <div class="step-number">02</div>
+            <div class="step-title">Multi-Source Analysis</div>
+            <div class="step-desc">Our engine scans keywords, source citations, and language patterns against thousands
+              of trusted articles.</div>
+          </div>
+          <div>
+            <div class="step-number">03</div>
+            <div class="step-title">Credibility Score</div>
+            <div class="step-desc">Receive an instant score from 0–100 with source citations and a clear Genuine / Fake
+              / Uncertain verdict.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section-sm" style="background:var(--cream);">
+      <div class="container">
+        <p
+          style="font-size:0.78rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:1.5rem;">
+          Cross-referenced with</p>
+        <div style="display:flex;flex-wrap:wrap;gap:0.75rem;">
+          <div class="source-pill">
+            <div class="source-dot"></div>BBC News
+          </div>
+          <div class="source-pill">
+            <div class="source-dot"></div>The Guardian
+          </div>
+          <div class="source-pill">
+            <div class="source-dot"></div>New York Times
+          </div>
+          <div class="source-pill">
+            <div class="source-dot"></div>Times of India
+          </div>
+          <div class="source-pill">
+            <div class="source-dot"></div>The Hindu
+          </div>
+          <div class="source-pill">
+            <div class="source-dot"></div>DD News
+          </div>
+          <div class="source-pill">
+            <div class="source-dot"></div>NDTV
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- PAGE 2: VERIFY -->
+  <div id="page-verify" class="page">
+    <div class="page-header verify-header container-wide"
+      style="padding:3.5rem 0 3rem;background:#050505;border-bottom:3px solid var(--green);">
+      <div class="container">
+        <p class="tag tag-green" style="margin-bottom:0.75rem;">Fact Checker</p>
+        <h2 style="font-family:var(--font-head);font-size:3.5rem;letter-spacing:2px;">VERIFY NEWS
+        </h2>
+        <p style="color:#9a9088;margin-top:0.5rem;">Submit an article for instant credibility analysis.</p>
+      </div>
+    </div>
+    <div class="verify-body">
+      <div class="verify-card">
+        <div class="form-group"><label>Headline *</label><input type="text" id="v-headline"
+            placeholder="Enter the news headline..." /></div>
+        <div class="form-group"><label>Article Content *</label><textarea id="v-content" rows="7"
+            placeholder="Paste the full article or a detailed summary..."></textarea>
+        </div>
+        <div class="grid-2" style="margin-bottom:1.5rem;">
+          <div class="form-group" style="margin-bottom:0;"><label>Category</label><select id="v-category">
+              <option>General</option>
+              <option>Politics</option>
+              <option>Health</option>
+              <option>Science</option>
+              <option>Technology</option>
+              <option>Business</option>
+              <option>Sports</option>
+              <option>Entertainment</option>
+            </select></div>
+          <div style="display:flex;align-items:flex-end;"><button class="btn btn-green"
+              style="width:100%;justify-content:center;" id="verify-btn" onclick="verifyNews()"><span
+                id="verify-btn-text">Verify Now</span>
+              <div class="spinner" id="verify-spinner"></div>
+            </button></div>
+        </div>
+        <p style="font-size:0.8rem;color:var(--muted);">Results are cross-referenced against multiple news databases.
+          All submissions are saved to your history.</p>
+      </div>
+      <div id="verify-result"></div>
+    </div>
+  </div>
+
+  <!-- PAGE 3: HISTORY -->
+  <div id="page-history" class="page">
+    <div style="background:#050505;padding:3.5rem 0 3rem;border-bottom:3px solid var(--gold);">
+      <div class="container">
+        <p class="tag tag-orange" style="margin-bottom:0.75rem;">Your Records</p>
+        <h2 style="font-family:var(--font-head);font-size:3.5rem;letter-spacing:2px;">VERIFICATION
+          HISTORY</h2>
+        <p style="color:#9a9088;margin-top:0.5rem;">All news checked via TruthLens.</p>
+      </div>
+    </div>
+    <div class="section-sm">
+      <div class="container">
+        <div class="flex-between" style="margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+          <div class="filter-bar" style="margin-bottom:0;">
+            <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+            <button class="filter-btn" onclick="setFilter('genuine',this)">Genuine</button>
+            <button class="filter-btn" onclick="setFilter('uncertain',this)">Uncertain</button>
+            <button class="filter-btn" onclick="setFilter('fake',this)">Fake</button>
+          </div>
+          <button class="btn btn-danger btn-sm" onclick="clearAllHistory()">Clear All</button>
+        </div>
+        <div class="history-table-wrap">
+          <table class="history-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Headline</th>
+                <th>Category</th>
+                <th>Score</th>
+                <th>Verdict</th>
+                <th>Date</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="history-tbody">
+              <tr>
+                <td colspan="7">
+                  <div class="empty-state">
+                    <div class="empty-state-icon">📭</div>
+                    <p>No verifications yet. <a onclick="showPage('verify')"
+                        style="color:var(--accent);cursor:pointer;">Verify your first story →</a></p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="pagination" id="history-pagination"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 4: DASHBOARD -->
+  <div id="page-dashboard" class="page">
+    <div style="background:#050505;padding:3.5rem 0 3rem;border-bottom:3px solid var(--accent2);">
+      <div class="container">
+        <p class="tag" style="color:var(--accent2);border-color:var(--accent2);margin-bottom:0.75rem;">Analytics</p>
+        <h2 style="font-family:var(--font-head);font-size:3.5rem;letter-spacing:2px;">ANALYTICS
+          DASHBOARD</h2>
+        <p style="color:#9a9088;margin-top:0.5rem;">Real-time stats from all verifications processed.</p>
+      </div>
+    </div>
+    <div class="section-sm">
+      <div class="container">
+        <div class="grid-4" style="margin-bottom:2rem;">
+          <div class="stat-card">
+            <div class="stat-card-num blue" id="kpi-total">—</div>
+            <div class="stat-card-label">Total Verified</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-num green" id="kpi-genuine">—</div>
+            <div class="stat-card-label">Genuine</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-num red" id="kpi-fake">—</div>
+            <div class="stat-card-label">Fake / Suspicious</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-num orange" id="kpi-avg">—</div>
+            <div class="stat-card-label">Avg. Score</div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <h3 style="font-family:var(--font-head);font-size:1.4rem;letter-spacing:1px;margin-bottom:1.5rem;">WEEKLY
+              TREND</h3>
+            <div id="weekly-chart" class="mini-chart"></div>
+            <div style="display:flex;gap:1.5rem;margin-top:1rem;">
+              <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:var(--muted);"><span
+                  style="width:10px;height:10px;background:var(--green);border-radius:2px;display:inline-block;"></span>
+                Genuine</div>
+              <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:var(--muted);"><span
+                  style="width:10px;height:10px;background:var(--red);border-radius:2px;display:inline-block;"></span>
+                Fake</div>
+            </div>
+          </div>
+          <div class="card">
+            <h3 style="font-family:var(--font-head);font-size:1.4rem;letter-spacing:1px;margin-bottom:1.5rem;">BY
+              CATEGORY</h3>
+            <div class="bar-chart" id="category-chart">
+              <p style="color:var(--muted);font-size:0.9rem;">No data yet.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:1.5rem;">
+          <h3 style="font-family:var(--font-head);font-size:1.4rem;letter-spacing:1px;margin-bottom:1.5rem;">VERDICT
+            BREAKDOWN</h3>
+          <div id="verdict-breakdown" style="display:flex;gap:1.5rem;flex-wrap:wrap;">
+            <p style="color:var(--muted);font-size:0.9rem;">No data yet.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 5: ABOUT -->
+  <div id="page-about" class="page">
+    <div style="background:#050505;padding:4rem 0;border-bottom:3px solid var(--orange);">
+      <div class="container">
+        <h2 style="font-family:var(--font-head);font-size:clamp(3rem,7vw,6rem);letter-spacing:3px;">
+          ABOUT<br>TRUTH<span style="color:var(--orange);">LENS</span></h2>
+        <p style="color:#9a9088;max-width:580px;margin-top:1rem;line-height:1.8;">TruthLens is an open, educational news
+          verification platform built to help readers identify misinformation and develop critical media literacy.</p>
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div class="grid-2" style="margin-bottom:4rem;align-items:center;">
+          <div>
+            <p class="tag tag-green" style="margin-bottom:1rem;">Our Mission</p>
+            <h2
+              style="font-family:var(--font-head);font-size:2.5rem;letter-spacing:1px;line-height:1.1;margin-bottom:1.5rem;">
+              VERIFIED<br>NOT VIRAL.</h2>
+            <p style="color:var(--muted);line-height:1.8;margin-bottom:1rem;">In an era of viral misinformation,
+              TruthLens provides a transparent, multi-source verification engine to help journalists, students, and
+              everyday readers assess news credibility.</p>
+            <p style="color:var(--muted);line-height:1.8;">Our scoring algorithm analyses language patterns, source
+              credibility markers, and cross-references content against a database of verified reports from the world's
+              most trusted news outlets.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:1rem;">
+            <div class="method-card" data-num="01">
+              <div class="method-icon">🔍</div>
+              <div class="method-title" style="color:var(--green);">KEYWORD ANALYSIS</div>
+              <div class="method-desc">Detects credible citations vs. sensational, clickbait language patterns
+                associated with misinformation.</div>
+            </div>
+            <div class="method-card" data-num="02">
+              <div class="method-icon">🗞️</div>
+              <div class="method-title" style="color:var(--green);"> SOURCE MATCHING</div>
+              <div class="method-desc">Cross-references against headlines from BBC, Reuters, AP, Guardian and 5+ other
+                tier-1 outlets.</div>
+            </div>
+            <div class="method-card" data-num="03">
+              <div class="method-icon">📊</div>
+              <div class="method-title" style="color:var(--green);">CREDIBILITY SCORING</div>
+              <div class="method-desc">Produces a transparent 0–100 score with a breakdown of signals contributing to
+                the verdict.</div>
+            </div>
+          </div>
+        </div>
+        <hr class="divider" />
+        <p class="tag tag-green" style="margin-bottom:1rem;">Technology</p>
+        <h3 style="font-family:var(--font-head);font-size:2rem;letter-spacing:1px;margin-bottom:1.5rem;">BUILT WITH</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:0.75rem;margin-bottom:3rem;">
+          <span class="tech-badge">⚡ Node.js</span><span class="tech-badge">🛤️ Express.js</span><span
+            class="tech-badge">⚛️ React (Phase 2)</span><span class="tech-badge">🎨 CSS3</span><span
+            class="tech-badge">📰 NewsAPI</span><span class="tech-badge">✅ Google Fact Check</span><span
+            class="tech-badge">📦 JSON Storage</span>
+        </div>
+        <hr class="divider" />
+        <p class="tag tag-green" style="margin-bottom:1rem;">Sources</p>
+        <h3 style="font-family:var(--font-head);font-size:2rem;letter-spacing:1px;margin-bottom:1.5rem;">TRUSTED OUTLETS
+        </h3>
+        <div class="card" style="max-width:600px;">
+          <div class="trusted-source"><span class="ts-name">BBC News</span><span class="ts-score">98% Reliability</span>
+          </div>
+          <div class="trusted-source"><span class="ts-name">Times Of India</span><span class="ts-score">97%
+              Reliability</span>
+          </div>
+          <div class="trusted-source"><span class="ts-name">The Hindu</span><span class="ts-score">96%
+              Reliability</span></div>
+          <div class="trusted-source"><span class="ts-name">The Guardian</span><span class="ts-score">94%
+              Reliability</span></div>
+          <div class="trusted-source"><span class="ts-name">DD News</span><span class="ts-score">91%
+              Reliability</span></div>
+          <div class="trusted-source"><span class="ts-name">NDTV</span><span class="ts-score">88% Reliability</span>
+          </div>
+          <div class="trusted-source"><span class="ts-name">New York Times</span><span class="ts-score">92%
+              Reliability</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 6: AUTH -->
+  <div id="page-auth" class="page">
+    <div style="background:#050505;padding:3.5rem 0 3rem;border-bottom:3px solid var(--accent);">
+      <div class="container">
+        <p class="tag tag-red" style="margin-bottom:0.75rem;">Account</p>
+        <h2 style="font-family:var(--font-head);font-size:3.5rem;letter-spacing:2px;">AUTHENTICATION</h2>
+        <p style="color:#9a9088;margin-top:0.5rem;">Join us to save verification history and get custom analytics.</p>
+      </div>
+    </div>
+    <div class="section-sm">
+      <div class="container" style="max-width:500px;">
+        <div class="card" id="auth-card">
+          <div style="display:flex;margin-bottom:2rem;border-bottom:1px solid var(--border);">
+            <button id="tab-login" onclick="switchAuthTab('login')"
+              style="flex:1;padding:1rem;background:transparent;color:#fff;font-weight:700;border-bottom:2px solid var(--accent);">LOGIN</button>
+            <button id="tab-signup" onclick="switchAuthTab('signup')"
+              style="flex:1;padding:1rem;background:transparent;color:var(--muted);font-weight:700;border-bottom:2px solid transparent;">SIGN
+              UP</button>
+          </div>
+
+          <!-- LOGIN FORM -->
+          <div id="form-login">
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" id="login-email" placeholder="you@example.com" />
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" id="login-password" placeholder="••••••••" />
+            </div>
+            <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:1rem;"
+              onclick="handleLogin()">Login</button>
+          </div>
+
+          <!-- SIGNUP FORM -->
+          <div id="form-signup" style="display:none;">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input type="text" id="signup-name" placeholder="John Doe" />
+            </div>
+            <div class="form-group">
+              <label>Email Address *</label>
+              <input type="email" id="signup-email" placeholder="you@example.com"
+                onkeyup="validateEmailRealtime(this.value)" />
+              <div id="email-validation-msg" style="font-size:0.75rem;margin-top:0.4rem;font-weight:600;"></div>
+            </div>
+            <div class="form-group">
+              <label>Password *</label>
+              <input type="password" id="signup-password" placeholder="Min. 6 chars" />
+            </div>
+            <button class="btn btn-primary" id="signup-btn" style="width:100%;justify-content:center;margin-top:1rem;"
+              onclick="handleSignup()">Create Account</button>
+          </div>
+        </div>
+
+        <div id="auth-logged-in" style="display:none;text-align:center;" class="card">
+          <div style="font-size:4rem;margin-bottom:1rem;">👋</div>
+          <h3 style="font-family:var(--font-head);font-size:2rem;letter-spacing:1px;margin-bottom:0.5rem;">WELCOME BACK!
+          </h3>
+          <p style="color:var(--muted);margin-bottom:2rem;" id="auth-user-name">You are logged in.</p>
+          <button class="btn btn-outline" onclick="handleLogout()">Sign Out</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer style="background:#050505;border-top:3px solid var(--accent);padding:3rem 0 2rem;color:var(--muted);">
+    <div class="footer-inner">
+      <div class="footer-logo">TRUTH<span>LENS</span></div>
+      <div class="footer-tagline">Separating fact from fiction, one story at a time.</div>
+      <div class="footer-bottom">
+        <div class="footer-links">
+          <a class="footer-link" onclick="showPage('home')">Home</a>
+          <a class="footer-link" onclick="showPage('verify')">Verify</a>
+          <a class="footer-link" onclick="showPage('about')">About</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <script>
+    const API = 'http://localhost:5000/api';
+    function showPage(p) { document.querySelectorAll('.page').forEach(x => x.classList.remove('active')); document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); document.getElementById('page-' + p).classList.add('active'); document.querySelectorAll('.nav-link').forEach(l => { if (l.getAttribute('onclick') && l.getAttribute('onclick').includes(p)) l.classList.add('active') }); window.scrollTo({ top: 0, behavior: 'smooth' }); if (p === 'history') loadHistory(); if (p === 'dashboard') loadAnalytics(); if (p === 'home') loadHomeStats(); }
+
+    function showToast(msg, type = '') { const tc = document.getElementById('toast-container'); const t = document.createElement('div'); t.className = 'toast ' + type; t.textContent = msg; tc.appendChild(t); setTimeout(() => t.remove(), 3500); }
+
+    function buildResultHTML(data) {
+      const srcHTML = data.sources && data.sources.length ? `<h4 style="font-size:0.8rem;text-transform:uppercase;letter-spacing:1.5px;margin:1.5rem 0 0.75rem;color:var(--muted);">Credibility Contribution Map</h4><ul class="source-list" style="gap:1rem;">${data.sources.map(s => {
+          const simColor = (s.simScore >= 0.25) ? 'var(--green)' : ((s.simScore >= 0.15) ? 'var(--orange)' : 'var(--red)');
+          const contributionPct = Math.min(100, Math.round((s.contribution || 0) * 100));
+          return `<li class="source-item" style="flex-wrap:wrap;gap:1.5rem;background:#0a0a0a;border-color:#2a2a2a;">
+              <div style="display:flex;align-items:center;gap:0.75rem;flex:1;min-width:200px;">
+                  <div class="source-icon" style="background:var(--border);">${s.name.slice(0, 2).toUpperCase()}</div>
+                  <div style="width:100%;">
+                      <div class="source-name">${s.name}</div>
+                      <div style="font-size:0.75rem;color:var(--muted);">${s.url} &bull; <span style="color:var(--green);font-weight:600;">${s.reliability}% Trust Weight</span></div>
+                  </div>
+              </div>
+              <div style="flex:1;min-width:180px;">
+                  <div style="display:flex;justify-content:space-between;font-size:0.7rem;margin-bottom:0.4rem;text-transform:uppercase;letter-spacing:1px;font-weight:600;">
+                      <span style="color:var(--muted);">Semantic Match</span>
+                      <span style="color:${simColor};">${Math.round((s.simScore || 0)*100)}%</span>
+                  </div>
+                  <div class="score-bar-bg" style="height:5px;background:#2a2a2a;">
+                      <div class="score-bar-fill" style="background:${simColor};width:0%;" data-target="${Math.min(100, Math.round((s.simScore || 0)*100))}"></div>
+                  </div>
+              </div>
+              <div style="width:65px;text-align:right;">
+                  <div style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;margin-bottom:0.2rem;letter-spacing:1px;">Impact</div>
+                  <div style="font-family:var(--font-mono);font-size:1.15rem;color:currentColor;">+${contributionPct}</div>
+              </div>
+          </li>`;
+      }).join('')}</ul>` : `<p style="color:var(--muted);font-size:0.85rem;margin-top:1rem;">⚠️ No matching sources found in trusted databases.</p>`;
+      
+      return `<div class="result-panel ${data.color}"><div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;"><div><div style="font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:0.25rem;">Verdict</div><div class="result-verdict">${data.verdict.toUpperCase()}</div></div><div style="text-align:right;"><div style="font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:0.25rem;">Category</div><span class="tag tag-${data.color}">${data.category}</span></div></div><div class="score-bar-wrap"><div class="score-label"><span>Final Credibility Score</span><span class="text-mono" style="font-size:1.2rem;">${data.score}/100</span></div><div class="score-bar-bg" style="height:12px;"><div class="score-bar-fill" style="width:0%;" data-target="${data.score}"></div></div></div><div class="grid-2" style="margin-top:1.5rem;"><div style="background:rgba(26,122,74,0.08);padding:1rem;border-radius:var(--radius);"><div style="font-size:0.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);">Credible Contexts</div><div style="font-family:var(--font-mono);font-size:1.4rem;color:var(--green);font-weight:600;">${data.credibleMatches || 0}</div></div><div style="background:rgba(200,57,43,0.08);padding:1rem;border-radius:var(--radius);"><div style="font-size:0.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);">Unrelated/Suspicious</div><div style="font-family:var(--font-mono);font-size:1.4rem;color:var(--red);font-weight:600;">${data.suspiciousMatches || 0}</div></div></div>${srcHTML}<div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;"><span style="font-size:0.78rem;color:var(--muted);font-family:var(--font-mono);">Checked: ${new Date(data.timestamp).toLocaleString()}</span><button class="btn btn-outline btn-sm" onclick="copyResult('${data.verdict}',${data.score})">Copy Proof</button></div></div>`;
+    }
+    function animateBar() { setTimeout(() => { document.querySelectorAll('[data-target]').forEach(el => { el.style.width = el.dataset.target + '%'; }); }, 80); }
+    function copyResult(verdict, score) { navigator.clipboard.writeText('TruthLens Verdict: ' + verdict + ' | Score: ' + score + '/100'); showToast('Result copied!', 'success'); }
+    async function verifyNews() {
+      const headline = document.getElementById('v-headline').value.trim();
+      const content = document.getElementById('v-content').value.trim();
+      const category = document.getElementById('v-category').value;
+      if (!headline || !content) { showToast('Please fill in both fields.', 'error'); return; }
+      const btn = document.getElementById('verify-btn'); const btnTxt = document.getElementById('verify-btn-text'); const spin = document.getElementById('verify-spinner');
+      btn.disabled = true; btnTxt.textContent = 'Verifying...'; spin.style.display = 'block';
+      try {
+        const res = await fetch(API + '/verify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ headline, content, category }) });
+        const data = await res.json(); if (data.error) throw new Error(data.error);
+        document.getElementById('verify-result').innerHTML = buildResultHTML(data); animateBar(); showToast('Verification complete!', 'success');
+      } catch (e) {
+        showToast('Server offline — showing demo result.', 'error');
+        const fb = { id: Date.now(), headline, content, score: 62, verdict: 'Uncertain', color: 'orange', category, credibleMatches: 3, suspiciousMatches: 2, sources: [], timestamp: new Date().toISOString() };
+        document.getElementById('verify-result').innerHTML = buildResultHTML(fb); animateBar();
+      } finally { btn.disabled = false; btnTxt.textContent = 'Verify Now'; spin.style.display = 'none'; }
+    }
+    async function quickVerify() {
+      const headline = document.getElementById('home-headline').value.trim();
+      const content = document.getElementById('home-content').value.trim();
+      if (!headline || !content) { showToast('Please enter a headline and content.', 'error'); return; }
+      try { const res = await fetch(API + '/verify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ headline, content, category: 'General' }) }); const data = await res.json(); document.getElementById('home-result').innerHTML = buildResultHTML(data); animateBar(); }
+      catch { showToast('Server offline. Try the full Verify page.', 'error'); }
+    }
+    let currentPage = 1, currentFilter = 'all';
+    async function loadHistory(page = 1) {
+      currentPage = page;
+      try { const res = await fetch(`${API}/history?page=${page}&limit=10&filter=${currentFilter}`); const data = await res.json(); renderHistory(data); }
+      catch { document.getElementById('history-tbody').innerHTML = `<tr><td colspan="7"><div class="empty-state"><div class="empty-state-icon">⚠️</div><p>Could not connect to server. Is the backend running?</p></div></td></tr>`; }
+    }
+    function renderHistory(data) {
+      const tbody = document.getElementById('history-tbody');
+      if (!data.data || data.data.length === 0) { tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><div class="empty-state-icon">📭</div><p>No verifications yet. <a onclick="showPage('verify')" style="color:var(--accent);cursor:pointer;">Verify your first story →</a></p></div></td></tr>`; document.getElementById('history-pagination').innerHTML = ''; return; }
+      tbody.innerHTML = data.data.map((v, i) => `<tr><td class="text-mono" style="color:var(--muted);">${(currentPage - 1) * 10 + i + 1}</td><td style="max-width:280px;"><div style="font-weight:600;font-size:0.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${v.headline}</div></td><td><span class="tag" style="color:var(--muted);">${v.category}</span></td><td><span class="score-badge ${v.color}">${v.score}/100</span></td><td><span class="tag tag-${v.color}">${v.verdict}</span></td><td class="text-mono" style="color:var(--muted);font-size:0.78rem;">${new Date(v.timestamp).toLocaleDateString()}</td><td><button class="delete-btn" onclick="deleteHistory('${v.id}')" title="Delete">✕</button></td></tr>`).join('');
+      const pg = document.getElementById('history-pagination'); if (data.totalPages <= 1) { pg.innerHTML = ''; return; } let btns = ''; for (let i = 1; i <= data.totalPages; i++)btns += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="loadHistory(${i})">${i}</button>`; pg.innerHTML = btns;
+    }
+    function setFilter(f, el) { currentFilter = f; document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); el.classList.add('active'); loadHistory(1); }
+    async function deleteHistory(id) { try { await fetch(`${API}/history/${id}`, { method: 'DELETE' }); loadHistory(currentPage); showToast('Entry deleted.'); } catch { showToast('Error deleting entry.', 'error'); } }
+    async function clearAllHistory() { if (!confirm('Delete all history?')) return; try { await fetch(`${API}/history`, { method: 'DELETE' }); loadHistory(1); showToast('History cleared.', 'success'); } catch { showToast('Error clearing history.', 'error'); } }
+    async function loadAnalytics() {
+      try {
+        const res = await fetch(API + '/analytics'); const d = await res.json();
+        document.getElementById('kpi-total').textContent = d.total || 0;
+        document.getElementById('kpi-genuine').textContent = d.genuine || 0;
+        document.getElementById('kpi-fake').textContent = d.fake || 0;
+        document.getElementById('kpi-avg').textContent = (d.avgScore || 0) + '%';
+        const wc = document.getElementById('weekly-chart'); const max = Math.max(...d.last7.map(x => Math.max(x.genuine, x.fake, 1)));
+        wc.innerHTML = d.last7.map(day => `<div class="mini-bar-wrap"><div class="mini-bar genuine" style="height:${(day.genuine / max) * 70}px;" title="${day.genuine} genuine"></div><div class="mini-bar fake" style="height:${(day.fake / max) * 70}px;" title="${day.fake} fake"></div><div class="mini-label">${day.date.slice(5)}</div></div>`).join('');
+        const cc = document.getElementById('category-chart');
+        if (d.categoryStats.length) { const maxCat = Math.max(...d.categoryStats.map(c => c.total), 1); cc.innerHTML = `<div class="bar-chart">${d.categoryStats.map(c => `<div class="bar-row"><div class="bar-label">${c.category}</div><div class="bar-track"><div class="bar-fill" style="width:${(c.total / maxCat) * 100}%;"></div></div><div class="bar-pct">${c.total}</div></div>`).join('')}</div>`; }
+        else cc.innerHTML = '<p style="color:var(--muted);font-size:0.9rem;">No data yet.</p>';
+        const vb = document.getElementById('verdict-breakdown');
+        if (d.total > 0) { vb.innerHTML = `<div style="flex:1;min-width:160px;background:rgba(26,122,74,0.07);border:1px solid var(--green);border-radius:var(--radius);padding:1.25rem;"><div style="font-family:var(--font-head);font-size:2.5rem;color:var(--green);">${d.genuine}</div><div style="font-size:0.75rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);">Likely Genuine</div><div style="font-family:var(--font-mono);font-size:0.8rem;color:var(--green);margin-top:0.3rem;">${Math.round((d.genuine / d.total) * 100)}%</div></div><div style="flex:1;min-width:160px;background:rgba(217,119,6,0.07);border:1px solid var(--orange);border-radius:var(--radius);padding:1.25rem;"><div style="font-family:var(--font-head);font-size:2.5rem;color:var(--orange);">${d.uncertain}</div><div style="font-size:0.75rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);">Uncertain</div><div style="font-family:var(--font-mono);font-size:0.8rem;color:var(--orange);margin-top:0.3rem;">${Math.round((d.uncertain / d.total) * 100)}%</div></div><div style="flex:1;min-width:160px;background:rgba(200,57,43,0.07);border:1px solid var(--red);border-radius:var(--radius);padding:1.25rem;"><div style="font-family:var(--font-head);font-size:2.5rem;color:var(--red);">${d.fake}</div><div style="font-size:0.75rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);">Likely Fake</div><div style="font-family:var(--font-mono);font-size:0.8rem;color:var(--red);margin-top:0.3rem;">${Math.round((d.fake / d.total) * 100)}%</div></div>`; }
+        else vb.innerHTML = '<p style="color:var(--muted);font-size:0.9rem;">No data yet.</p>';
+      } catch { showToast('Could not load analytics. Is the server running?', 'error'); }
+    }
+    async function loadHomeStats() { try { const res = await fetch(API + '/analytics'); const d = await res.json(); animateCounter('home-stat-total', d.total); animateCounter('home-stat-genuine', d.genuine); animateCounter('home-stat-fake', d.fake); } catch { } }
+    function animateCounter(id, target) { const el = document.getElementById(id); let cur = 0; const step = Math.max(1, Math.ceil(target / 40)); const t = setInterval(() => { cur = Math.min(cur + step, target); el.textContent = cur; if (cur >= target) clearInterval(t); }, 30); }
+    function toggleFaq(el) { el.parentElement.classList.toggle('open'); }
+    document.addEventListener('keydown', e => { if (e.key === 'Enter' && document.activeElement.id === 'v-headline') verifyNews(); });
+    loadHomeStats();
+
+    // AUTHENTICATION LOGIC
+    let currentUser = null;
+
+    function switchAuthTab(tab) {
+      const loginTab = document.getElementById('tab-login');
+      const signupTab = document.getElementById('tab-signup');
+      const loginForm = document.getElementById('form-login');
+      const signupForm = document.getElementById('form-signup');
+
+      if (tab === 'login') {
+        loginTab.style.color = '#fff'; loginTab.style.borderBottomColor = 'var(--accent)';
+        signupTab.style.color = 'var(--muted)'; signupTab.style.borderBottomColor = 'transparent';
+        loginForm.style.display = 'block'; signupForm.style.display = 'none';
+      } else {
+        signupTab.style.color = '#fff'; signupTab.style.borderBottomColor = 'var(--accent)';
+        loginTab.style.color = 'var(--muted)'; loginTab.style.borderBottomColor = 'transparent';
+        signupForm.style.display = 'block'; loginForm.style.display = 'none';
+      }
+    }
+
+    function isValidEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(String(email).toLowerCase());
+    }
+
+    function validateEmailRealtime(val) {
+      const msg = document.getElementById('email-validation-msg');
+      if (!val) { msg.textContent = ''; return; }
+      if (isValidEmail(val)) {
+        msg.textContent = '✓ Valid email format';
+        msg.style.color = 'var(--green)';
+      } else {
+        msg.textContent = '✕ Invalid email format';
+        msg.style.color = 'var(--red)';
+      }
+    }
+
+    function handleSignup() {
+      const name = document.getElementById('signup-name').value.trim();
+      const email = document.getElementById('signup-email').value.trim();
+      const pass = document.getElementById('signup-password').value;
+
+      if (!name || !email || !pass) { showToast('Please fill all fields', 'error'); return; }
+      if (!isValidEmail(email)) { showToast('Please enter a valid email address', 'error'); return; }
+      if (pass.length < 6) { showToast('Password must be at least 6 characters', 'error'); return; }
+
+      // Mock Saving User
+      const users = JSON.parse(localStorage.getItem('truthlens_users') || '{}');
+      if (users[email]) { showToast('Email already in use!', 'error'); return; }
+
+      users[email] = { name, pass };
+      localStorage.setItem('truthlens_users', JSON.stringify(users));
+
+      showToast('Account created! Logging in...', 'success');
+      performLogin(name, email);
+
+      // Clear forms
+      document.getElementById('signup-name').value = '';
+      document.getElementById('signup-email').value = '';
+      document.getElementById('signup-password').value = '';
+      document.getElementById('email-validation-msg').textContent = '';
+    }
+
+    function handleLogin() {
+      const email = document.getElementById('login-email').value.trim();
+      const pass = document.getElementById('login-password').value;
+
+      if (!email || !pass) { showToast('Please fill all fields', 'error'); return; }
+
+      const users = JSON.parse(localStorage.getItem('truthlens_users') || '{}');
+      const user = users[email];
+
+      if (!user || user.pass !== pass) { showToast('Invalid email or password', 'error'); return; }
+
+      showToast('Login successful!', 'success');
+      performLogin(user.name, email);
+
+      document.getElementById('login-email').value = '';
+      document.getElementById('login-password').value = '';
+    }
+
+    function performLogin(name, email) {
+      currentUser = { name, email };
+      localStorage.setItem('truthlens_session', JSON.stringify(currentUser));
+      updateAuthUI();
+      setTimeout(() => { showPage('home'); }, 800);
+    }
+
+    function handleLogout() {
+      currentUser = null;
+      localStorage.removeItem('truthlens_session');
+      showToast('Logged out successfully', 'success');
+      updateAuthUI();
+      showPage('home');
+    }
+
+    function updateAuthUI() {
+      const authLink = document.getElementById('nav-auth-link');
+      const userMenu = document.getElementById('nav-user-menu');
+      const userName = document.getElementById('nav-user-name');
+      const authCard = document.getElementById('auth-card');
+      const loggedInCard = document.getElementById('auth-logged-in');
+      const loggedUserName = document.getElementById('auth-user-name');
+
+      if (currentUser) {
+        if (authLink) authLink.style.display = 'none';
+        if (userMenu) userMenu.style.display = 'flex';
+        if (userName) userName.textContent = currentUser.name;
+
+        if (authCard) authCard.style.display = 'none';
+        if (loggedInCard) loggedInCard.style.display = 'block';
+        if (loggedUserName) loggedUserName.textContent = 'Logged in as ' + currentUser.email;
+      } else {
+        if (authLink) authLink.style.display = 'block';
+        if (userMenu) userMenu.style.display = 'none';
+        if (userName) userName.textContent = '';
+
+        if (authCard) authCard.style.display = 'block';
+        if (loggedInCard) loggedInCard.style.display = 'none';
+        switchAuthTab('login');
+      }
+    }
+
+    // Init Auth session
+    const savedSession = localStorage.getItem('truthlens_session');
+    if (savedSession) {
+      try { currentUser = JSON.parse(savedSession); updateAuthUI(); } catch (e) { }
+    } else {
+      updateAuthUI();
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,6 @@
+node_modules/
+.env
+python-service/venv/
+python-service/__pycache__/
+python-service/.pytest_cache/
+.DS_Store
